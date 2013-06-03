@@ -10,7 +10,6 @@ Once created note the application keys and add the development versions to a con
 
     {
       "PARSE_APP_ID": "ma4KVupPzQOQpUfSGKoR34TVHOTCq9Nh5ii8DLgq",
-      "PARSE_MASTER_API_KEY": "YyKnMRs0pVg19kFKxln6LWoN5a53mK2e7mEr8rPb",
       "PARSE_REST_API_KEY": "izLxWoe4waULE80ovq1VqVDegcZIabQL05TFZWMF"
     }
 
@@ -37,6 +36,12 @@ Next try updating that user.
     curl -X PUT http://localhost:3000/api/v0/users/JTQKXcajdP.json \
     -d "session_token=cqo4zl2ocs4ati8c51ugs6mtt" \
     -d "stripe_customer_id=1234"
+
+## Deploying to Heroku
+
+    heroku create
+    git push heroku master
+    heroku config:set PARSE_APP_ID=GZPNki0Ypqqe2ij498wF7oKz1x9ARs6W8024Juri PARSE_REST_API_KEY=7U7a06KhU42eMnoC8UDluGyxOAklQKo6DEqHTYUb
 
 ## Documentation
 
