@@ -19,6 +19,7 @@ var users = {
         if (resp.error) {
           request.reply({success: false, error: {message: resp.error}})
         } else {
+          user.session_token = resp.sessionToken;
           request.reply({success: true, user: user});
         }
       });
