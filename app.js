@@ -14,6 +14,6 @@ Parse = require('./lib/parse')(app_id, rest_key);
 
 var port        = parseInt(process.env.PORT) || 3000;
 var Hapi        = require('hapi');
-server          = new Hapi.Server(+port, '0.0.0.0');
+server          = new Hapi.Server(+port, '0.0.0.0', { cors: true });
 require('./routes');
 server.start();
