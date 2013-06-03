@@ -11,7 +11,7 @@ var sessions = {
           request.reply({ success: true, session_token: resp.sessionToken, id: resp.objectId });
         }
       });
-    } 
+    }
   }
 };
 
