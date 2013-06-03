@@ -1,1 +1,2 @@
+require('./sessions');
 require('./users');

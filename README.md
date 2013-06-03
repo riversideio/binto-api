@@ -14,25 +14,62 @@ Once created note the application keys and add the development versions to a con
       "PARSE_REST_API_KEY": "izLxWoe4waULE80ovq1VqVDegcZIabQL05TFZWMF"
     }
 
+Startup the app.
+
+    node app.js
+
 Now you can create your first user.
 
      curl -X POST http://localhost:3000/api/v0/users.json \
      -d "email=you@youremail.com" \
      -d "password=password"
 
+Next trying logging that user in.
+
+    curl -X POST http://localhost:3000/api/v0/sessions.json \
+    -d "email=you@youremail.com" \
+    -d "password=password"
+
+Note the session_token that comes back.
+
+Next try updating that user.
+
+    curl -X PUT http://localhost:3000/api/v0/users/JTQKXcajdP.json \
+    -d "session_token=cqo4zl2ocs4ati8c51ugs6mtt" \
+    -d "stripe_customer_id=1234"
 
 ## Documentation
 
-### GET /api/v0/users
+### Users
+
+#### GET /api/v0/users
 
 Gets the list of users.
 
     curl -X GET http://localhost:3000/api/v0/users.json
 
-### POST /api/v0/uses
+#### POST /api/v0/users
 
 Creates a user.
 
     curl -X POST http://localhost:3000/api/v0/users.json \
+    -d "email=you@youremail.com" \
+    -d "password=password"
+
+#### POST /api/v0/users/:id.json
+
+Updates a user's attributes. Requires a session_token.
+
+    curl -X PUT http://localhost:3000/api/v0/users/JTQKXcajdP.json \
+    -d "session_token=cqo4zl2ocs4ati8c51ugs6mtt" \
+    -d "stripe_customer_id=1234"
+
+### Sessions
+
+#### POST /api/v0/sessions
+
+Lets the user login and returns the sessionToken.
+
+    curl -X POST http://localhost:3000/api/v0/sessions.json \
     -d "email=you@youremail.com" \
     -d "password=password"
