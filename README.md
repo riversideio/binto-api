@@ -74,7 +74,7 @@ Creates a user.
 
 Updates a user's attributes. Requires a session_token.
 
-    curl -X POST http://localhost:3000/api/v0/users/JTQKXcajdP.json \
+    curl -X POST http://localhost:3000/api/v0/users/JTQKXcajdP/update.json \
     -d "session_token=cqo4zl2ocs4ati8c51ugs6mtt" \
     -d "stripe_customer_id=1234"
 
