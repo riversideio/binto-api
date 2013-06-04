@@ -37,6 +37,15 @@ Next try updating that user.
     -d "session_token=cqo4zl2ocs4ati8c51ugs6mtt" \
     -d "stripe_customer_id=1234"
 
+Now, we need to add in [Stripe](http://stripe.com) appropriately. Create an account at [Stripe.com](http://stripe.com) and then copy the test secret key to your config.json like the following.
+
+    {
+      ...
+      "STRIPE_SECRET_KEY": "sk_test_E7WuViC5JlIQMQKYEE8fLJea"
+    }
+
+
+
 ## Deploying to Heroku
 
     heroku create
@@ -61,13 +70,24 @@ Creates a user.
     -d "email=you@youremail.com" \
     -d "password=password"
 
-#### POST /api/v0/users/:id.json
+#### POST /api/v0/users/:id/update.json
 
 Updates a user's attributes. Requires a session_token.
 
-    curl -X PUT http://localhost:3000/api/v0/users/JTQKXcajdP.json \
+    curl -X POST http://localhost:3000/api/v0/users/JTQKXcajdP.json \
     -d "session_token=cqo4zl2ocs4ati8c51ugs6mtt" \
     -d "stripe_customer_id=1234"
+
+#### POST /api/v0/users/:id/update_card.json
+
+Updates a user's credit card on file. Creates one if not yet existing. Requires a session_token.
+
+    curl -X POST http://localhost:3000/api/v0/users/JTQKXcajdP/update_card.json \
+    -d "session_token=cqo4zl2ocs4ati8c51ugs6mtt" \
+    -d "card_number=4242424242424242" \
+    -d "card_cvc=123" \
+    -d "card_exp_month=7" \
+    -d "card_exp_year=18"
 
 ### Sessions
 
