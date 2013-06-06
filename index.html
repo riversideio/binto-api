@@ -1,0 +1,164 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Victoria-club by riversideio</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Victoria-club</h1>
+        <p>The member signup and billing management API for Riverside.io.</p>
+
+        <p class="view"><a href="https://github.com/riversideio/victoria-club">View the Project on GitHub <small>riversideio/victoria-club</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/riversideio/victoria-club/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/riversideio/victoria-club/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/riversideio/victoria-club">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a name="victoria-club" class="anchor" href="#victoria-club"><span class="octicon octicon-link"></span></a>victoria-club</h1>
+
+<p>The member signup and billing management API for Riverside.io.</p>
+
+<h2>
+<a name="getting-started" class="anchor" href="#getting-started"><span class="octicon octicon-link"></span></a>Getting Started</h2>
+
+<p>Create a free account at <a href="http://parse.com">parse.com</a>. Create an app called victoria_club_development and another app called victoria_club_production. This will serve as the database. It is a nice alternative to running your own database.</p>
+
+<p>Once created note the application keys and add the development versions to a config.json file. Touch config.json file and then add the following.</p>
+
+<pre><code>{
+  "PARSE_APP_ID": "ma4KVupPzQOQpUfSGKoR34TVHOTCq9Nh5ii8DLgq",
+  "PARSE_REST_API_KEY": "izLxWoe4waULE80ovq1VqVDegcZIabQL05TFZWMF"
+}
+</code></pre>
+
+<p>Optionally add a STRIPE_PLAN_ID in this config if you want a card automatically associated to your coworking space's monthly membership plan.</p>
+
+<p>Startup the app.</p>
+
+<pre><code>node app.js
+</code></pre>
+
+<p>Now you can create your first user.</p>
+
+<pre><code> curl -X POST http://localhost:3000/api/v0/users.json \
+ -d "email=you@youremail.com" \
+ -d "password=password"
+</code></pre>
+
+<p>Next trying logging that user in.</p>
+
+<pre><code>curl -X POST http://localhost:3000/api/v0/sessions.json \
+-d "email=you@youremail.com" \
+-d "password=password"
+</code></pre>
+
+<p>Note the session_token that comes back.</p>
+
+<p>Next try updating that user.</p>
+
+<pre><code>curl -X PUT http://localhost:3000/api/v0/users/JTQKXcajdP.json \
+-d "session_token=cqo4zl2ocs4ati8c51ugs6mtt" \
+-d "stripe_customer_id=1234"
+</code></pre>
+
+<p>Now, we need to add in <a href="http://stripe.com">Stripe</a> appropriately. Create an account at <a href="http://stripe.com">Stripe.com</a> and then copy the test secret key to your config.json like the following.</p>
+
+<pre><code>{
+  ...
+  "STRIPE_SECRET_KEY": "sk_test_E7WuViC5JlIQMQKYEE8fLJea"
+}
+</code></pre>
+
+<h2>
+<a name="deploying-to-heroku" class="anchor" href="#deploying-to-heroku"><span class="octicon octicon-link"></span></a>Deploying to Heroku</h2>
+
+<pre><code>heroku create
+git push heroku master
+heroku config:set PARSE_APP_ID=GZPNki0Ypqqe2ij498wF7oKz1x9ARs6W8024Juri PARSE_REST_API_KEY=7U7a06KhU42eMnoC8UDluGyxOAklQKo6DEqHTYUb STRIPE_SECRET_KEY=sk_live_nV0HfnLZINki0ASexaKQPB0m
+STRIPE_PLAN_ID=riversideio100
+</code></pre>
+
+<h2>
+<a name="documentation" class="anchor" href="#documentation"><span class="octicon octicon-link"></span></a>Documentation</h2>
+
+<h3>
+<a name="users" class="anchor" href="#users"><span class="octicon octicon-link"></span></a>Users</h3>
+
+<h4>
+<a name="get-apiv0users" class="anchor" href="#get-apiv0users"><span class="octicon octicon-link"></span></a>GET /api/v0/users</h4>
+
+<p>Gets the list of users.</p>
+
+<pre><code>curl -X GET http://localhost:3000/api/v0/users.json
+</code></pre>
+
+<h4>
+<a name="post-apiv0users" class="anchor" href="#post-apiv0users"><span class="octicon octicon-link"></span></a>POST /api/v0/users</h4>
+
+<p>Creates a user.</p>
+
+<pre><code>curl -X POST http://localhost:3000/api/v0/users.json \
+-d "email=you@youremail.com" \
+-d "password=password"
+</code></pre>
+
+<h4>
+<a name="post-apiv0usersidupdatejson" class="anchor" href="#post-apiv0usersidupdatejson"><span class="octicon octicon-link"></span></a>POST /api/v0/users/:id/update.json</h4>
+
+<p>Updates a user's attributes. Requires a session_token.</p>
+
+<pre><code>curl -X POST http://localhost:3000/api/v0/users/JTQKXcajdP/update.json \
+-d "session_token=cqo4zl2ocs4ati8c51ugs6mtt" \
+-d "stripe_customer_id=1234"
+</code></pre>
+
+<h4>
+<a name="post-apiv0usersidupdate_cardjson" class="anchor" href="#post-apiv0usersidupdate_cardjson"><span class="octicon octicon-link"></span></a>POST /api/v0/users/:id/update_card.json</h4>
+
+<p>Updates a user's credit card on file. Creates one if not yet existing. Requires a session_token.</p>
+
+<pre><code>curl -X POST http://localhost:3000/api/v0/users/JTQKXcajdP/update_card.json \
+-d "session_token=cqo4zl2ocs4ati8c51ugs6mtt" \
+-d "card_number=4242424242424242" \
+-d "card_cvc=123" \
+-d "card_exp_month=7" \
+-d "card_exp_year=18"
+</code></pre>
+
+<h3>
+<a name="sessions" class="anchor" href="#sessions"><span class="octicon octicon-link"></span></a>Sessions</h3>
+
+<h4>
+<a name="post-apiv0sessions" class="anchor" href="#post-apiv0sessions"><span class="octicon octicon-link"></span></a>POST /api/v0/sessions</h4>
+
+<p>Lets the user login and returns the sessionToken.</p>
+
+<pre><code>curl -X POST http://localhost:3000/api/v0/sessions.json \
+-d "email=you@youremail.com" \
+-d "password=password"
+</code></pre>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/riversideio">riversideio</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
