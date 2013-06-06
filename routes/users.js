@@ -57,7 +57,8 @@ var users = {
         if (resp.error) {
           request.reply({success: false, error: {message: resp.error}})
         } else {
-          var email   = resp.email;
+          var user    = resp;
+
           var payload = {
             card: {
               number:     request.payload.card_number, 
@@ -66,24 +67,42 @@ var users = {
               exp_year:   request.payload.card_exp_year
             },
             plan:       STRIPE_PLAN_ID,
-            email:      email
+            email:      user.email
           };
 
-          Stripe.customers.create(payload, function(err, customer) {
-            if (err) {
-              request.reply({success: false, error: {message: err.message}})
-            } else {
-              var user = {stripe_customer_id: customer.id, session_token: request.payload.session_token};
-              
-              Parse.put("/users/"+request.params.id+".json", user, function(resp) {
-                if (resp.error) {
-                  request.reply({success: false, error: {message: resp.error}})
-                } else {
-                  request.reply({success: true, user: user});
-                }
-              });
-            }
-          });
+          if (user.stripe_customer_id) {
+            Stripe.customers.update(user.stripe_customer_id, payload, function(err, customer) {
+              if (err) {
+                request.reply({success: false, error: {message: err.message}})
+              } else {
+                var user_payload = {stripe_customer_id: customer.id, session_token: request.payload.session_token};
+                
+                Parse.put("/users/"+request.params.id+".json", user_payload, function(resp) {
+                  if (resp.error) {
+                    request.reply({success: false, error: {message: resp.error}})
+                  } else {
+                    request.reply({success: true, user: user_payload});
+                  }
+                });
+              }
+            });
+          } else {
+            Stripe.customers.create(payload, function(err, customer) {
+              if (err) {
+                request.reply({success: false, error: {message: err.message}})
+              } else {
+                var user_payload = {stripe_customer_id: customer.id, session_token: request.payload.session_token};
+                
+                Parse.put("/users/"+request.params.id+".json", user_payload, function(resp) {
+                  if (resp.error) {
+                    request.reply({success: false, error: {message: resp.error}})
+                  } else {
+                    request.reply({success: true, user: user_payload});
+                  }
+                });
+              }
+            });
+          }
         }
       });
     }
