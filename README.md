@@ -13,6 +13,8 @@ Once created note the application keys and add the development versions to a con
       "PARSE_REST_API_KEY": "izLxWoe4waULE80ovq1VqVDegcZIabQL05TFZWMF"
     }
 
+Optionally add a STRIPE_PLAN_ID in this config if you want a card automatically associated to your coworking space's monthly membership plan.
+
 Startup the app.
 
     node app.js

@@ -48,7 +48,8 @@ var users = {
           cvc:        request.payload.card_cvc, 
           exp_month:  request.payload.card_exp_month, 
           exp_year:   request.payload.card_exp_year
-        }
+        },
+        plan:       STRIPE_PLAN_ID
       };
 
       Stripe.customers.create(payload, function(err, customer) {
