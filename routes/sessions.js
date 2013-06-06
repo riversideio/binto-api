@@ -8,7 +8,13 @@ var sessions = {
         if (resp.error) {
           request.reply({ success: false, error: {message: resp.error }})
         } else {
-          request.reply({ success: true, session_token: resp.sessionToken, id: resp.objectId });
+          var user = {
+            id:               resp.objectId,
+            email:            resp.email,
+            session_token:    resp.sessionToken
+          };
+          
+          request.reply({ success: true, user: user });
         }
       });
     }

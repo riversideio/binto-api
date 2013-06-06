@@ -1,6 +1,6 @@
 var users = {
   index: {
-    handler: function (request) {
+    handler: function(request) {
       Parse.get("/users.json", function(resp) {
         if (resp.error) {
           request.reply({success: false, error: {message: resp.error}})
@@ -26,6 +26,17 @@ var users = {
       });
     }
   },
+  get: {
+    handler: function(request) {
+      Parse.get("/users/"+request.params.id+".json", function(resp) {
+        if (resp.error) {
+          request.reply({success: false, error: {message: resp.error}})
+        } else {
+          request.reply({ success: true, user: resp });
+        }
+      });
+    }
+  },
   update: {
     handler: function(request) {
       var user = request.payload;
@@ -42,27 +53,35 @@ var users = {
   },
   update_card: {
     handler: function(request) {
-      var payload = {
-        card: {
-          number:     request.payload.card_number, 
-          cvc:        request.payload.card_cvc, 
-          exp_month:  request.payload.card_exp_month, 
-          exp_year:   request.payload.card_exp_year
-        },
-        plan:       STRIPE_PLAN_ID
-      };
-
-      Stripe.customers.create(payload, function(err, customer) {
-        if (err) {
-          request.reply({success: false, error: {message: err.message}})
+      Parse.get("/users/"+request.params.id+".json", function(resp) {
+        if (resp.error) {
+          request.reply({success: false, error: {message: resp.error}})
         } else {
-          var user = {stripe_customer_id: customer.id, session_token: request.payload.session_token};
-          
-          Parse.put("/users/"+request.params.id+".json", user, function(resp) {
-            if (resp.error) {
-              request.reply({success: false, error: {message: resp.error}})
+          var email   = resp.email;
+          var payload = {
+            card: {
+              number:     request.payload.card_number, 
+              cvc:        request.payload.card_cvc, 
+              exp_month:  request.payload.card_exp_month, 
+              exp_year:   request.payload.card_exp_year
+            },
+            plan:       STRIPE_PLAN_ID,
+            email:      email
+          };
+
+          Stripe.customers.create(payload, function(err, customer) {
+            if (err) {
+              request.reply({success: false, error: {message: err.message}})
             } else {
-              request.reply({success: true, user: user});
+              var user = {stripe_customer_id: customer.id, session_token: request.payload.session_token};
+              
+              Parse.put("/users/"+request.params.id+".json", user, function(resp) {
+                if (resp.error) {
+                  request.reply({success: false, error: {message: resp.error}})
+                } else {
+                  request.reply({success: true, user: user});
+                }
+              });
             }
           });
         }
@@ -81,6 +100,12 @@ server.route({
   method  : 'POST',
   path    : '/api/v0/users.json',
   config  : users.create
+});
+
+server.route({
+  method  : 'GET',
+  path    : '/api/v0/users/{id}/show.json',
+  config  : users.get
 });
 
 server.route({

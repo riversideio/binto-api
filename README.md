@@ -73,6 +73,12 @@ Creates a user.
     -d "email=you@youremail.com" \
     -d "password=password"
 
+#### GET /api/v0/users/:id/show.json
+
+Gets a user.
+
+    curl -X GET http://localhost:3000/api/v0/users/JTQKXcajdP/show.json
+
 #### POST /api/v0/users/:id/update.json
 
 Updates a user's attributes. Requires a session_token.
