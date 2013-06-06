@@ -53,6 +53,7 @@ Now, we need to add in [Stripe](http://stripe.com) appropriately. Create an acco
     heroku create
     git push heroku master
     heroku config:set PARSE_APP_ID=GZPNki0Ypqqe2ij498wF7oKz1x9ARs6W8024Juri PARSE_REST_API_KEY=7U7a06KhU42eMnoC8UDluGyxOAklQKo6DEqHTYUb STRIPE_SECRET_KEY=sk_live_nV0HfnLZINki0ASexaKQPB0m
+    STRIPE_PLAN_ID=riversideio100
 
 ## Documentation
 
