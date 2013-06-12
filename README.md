@@ -35,7 +35,7 @@ Note the session_token that comes back.
 
 Next try updating that user.
 
-    curl -X PUT http://localhost:3000/api/v0/users/JTQKXcajdP.json \
+    curl -X POST http://localhost:3000/api/v0/users/JTQKXcajdP/update.json \
     -d "session_token=cqo4zl2ocs4ati8c51ugs6mtt" \
     -d "stripe_customer_id=1234"
 
