@@ -13,18 +13,19 @@ var users = {
   create: {
     handler: function(request) {
       var user = request.payload;
-      console.log( user );
       user.username = user.email;
 
-      // Parse.post("/users.json", user, function(resp) {
-      //   if (resp.error) {
-      //     request.reply({success: false, error: {message: resp.error}})
-      //   } else {
-      //     user.session_token  = resp.sessionToken;
-      //     user.id             = resp.objectId;
-      //     request.reply({success: true, user: user});
-      //   }
-      // });
+      Parse.post("/users.json", user, function(resp) {
+        if (resp.error) {
+          request.reply({success: false, error: {message: resp.error}})
+        } else {
+          // remove user password from api response
+          delete user.password;
+          user.session_token  = resp.sessionToken;
+          user.id             = resp.objectId;
+          request.reply({success: true, user: user});
+        }
+      });
     }
   },
   get: {
