@@ -5,6 +5,12 @@ var users = {
         if (resp.error) {
           request.reply({success: false, error: {message: resp.error}})
         } else {
+          resp.results.forEach( function( user ){
+            delete user.address_1;
+            delete user.address_2;
+            delete user.city;
+            delete user.phone;
+          })
           request.reply({ success: true, users: resp.results });
         }
       });

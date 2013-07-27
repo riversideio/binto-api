@@ -11,6 +11,7 @@ var sessions = {
           var user = {
             id:               resp.objectId,
             email:            resp.email,
+            zip :             resp.zip,
             session_token:    resp.sessionToken
           };
           
