@@ -10,7 +10,7 @@ var users = {
             delete user.address_2;
             delete user.city;
             delete user.phone;
-          })
+          });
           request.reply({ success: true, users: resp.results });
         }
       });
