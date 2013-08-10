@@ -1,3 +1,6 @@
+//var dataAdapter = require( './lib/adapter' );
+
+
 var users = {
   index: {
     handler: function(request) {
@@ -117,32 +120,31 @@ var users = {
   }
 };
 
-server.route({
-  method  : 'GET',
-  path    : '/api/v0/users.json',
-  config  : users.index
-});
 
-server.route({
-  method  : 'POST',
-  path    : '/api/v0/users.json',
-  config  : users.create
-});
-
-server.route({
-  method  : 'GET',
-  path    : '/api/v0/users/{id}/show.json',
-  config  : users.get
-});
-
-server.route({
-  method  : 'POST',
-  path    : '/api/v0/users/{id}/update.json',
-  config  : users.update
-});
-
-server.route({
-  method  : 'POST',
-  path    : '/api/v0/users/{id}/update_card.json',
-  config  : users.update_card
-});
+module.exports = [
+  {
+    method  : 'GET',
+    path    : '/api/v0/users.json',
+    config  : users.index
+  },
+  {
+    method  : 'POST',
+    path    : '/api/v0/users.json',
+    config  : users.create
+  },
+  {
+    method  : 'GET',
+    path    : '/api/v0/users/{id}/show.json',
+    config  : users.get
+  },
+  {
+    method  : 'POST',
+    path    : '/api/v0/users/{id}/update.json',
+    config  : users.update
+  },
+  {
+    method  : 'POST',
+    path    : '/api/v0/users/{id}/update_card.json',
+    config  : users.update_card
+  }
+];

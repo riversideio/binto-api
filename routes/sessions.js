@@ -1,3 +1,4 @@
+
 var sessions = {
   login: {
     handler: function (request) {
@@ -22,8 +23,10 @@ var sessions = {
   }
 };
 
-server.route({
-  method  : 'POST',
-  path    : '/api/v0/sessions.json',
-  config  : sessions.login
-});
+module.exports = [
+  {
+    method  : 'POST',
+    path    : '/api/v0/sessions.json',
+    config  : sessions.login
+  }
+];
