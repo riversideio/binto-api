@@ -26,15 +26,9 @@ require('./routes');
 server.start();
 // some feedback that the server started
 console.log( 
-	blue 				+ 
-	'Server process ' 	+ 
-	cyan 				+ 
-	'id:' 				+ 
-	process.pid 		+ 
-	blue 				+
-	' started at ' 		+ 
-	green 				+ 
-	'0.0.0.0:' 			+ 
-	port 				+ 
-	"\033[0m" 
+	blue + 'Server process ' + 
+	cyan + 'id:' + process.pid + 
+	blue + ' started at ' + 
+	green + '0.0.0.0:' + 
+	port + "\033[0m" 
 );
