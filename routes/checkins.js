@@ -14,8 +14,8 @@ var checkins = {
   }
 }
 
-server.route({
+module.exports[{
   method: 'POST',
   path: '/api/v0/checkins.json',
   config: checkins.create
-});
+}];

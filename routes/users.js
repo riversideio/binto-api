@@ -1,3 +1,6 @@
+//var dataAdapter = require( './lib/adapter' );
+
+
 var users = {
   index: {
     handler: function(request) {
@@ -5,6 +8,12 @@ var users = {
         if (resp.error) {
           request.reply({success: false, error: {message: resp.error}})
         } else {
+          resp.results.forEach( function( user ){
+            delete user.address_1;
+            delete user.address_2;
+            delete user.city;
+            delete user.phone;
+          });
           request.reply({ success: true, users: resp.results });
         }
       });
@@ -19,6 +28,8 @@ var users = {
         if (resp.error) {
           request.reply({success: false, error: {message: resp.error}})
         } else {
+          // remove user password from api response
+          delete user.password;
           user.session_token  = resp.sessionToken;
           user.id             = resp.objectId;
           request.reply({success: true, user: user});
@@ -109,32 +120,31 @@ var users = {
   }
 };
 
-server.route({
-  method  : 'GET',
-  path    : '/api/v0/users.json',
-  config  : users.index
-});
 
-server.route({
-  method  : 'POST',
-  path    : '/api/v0/users.json',
-  config  : users.create
-});
-
-server.route({
-  method  : 'GET',
-  path    : '/api/v0/users/{id}/show.json',
-  config  : users.get
-});
-
-server.route({
-  method  : 'POST',
-  path    : '/api/v0/users/{id}/update.json',
-  config  : users.update
-});
-
-server.route({
-  method  : 'POST',
-  path    : '/api/v0/users/{id}/update_card.json',
-  config  : users.update_card
-});
+module.exports = [
+  {
+    method  : 'GET',
+    path    : '/api/v0/users.json',
+    config  : users.index
+  },
+  {
+    method  : 'POST',
+    path    : '/api/v0/users.json',
+    config  : users.create
+  },
+  {
+    method  : 'GET',
+    path    : '/api/v0/users/{id}/show.json',
+    config  : users.get
+  },
+  {
+    method  : 'POST',
+    path    : '/api/v0/users/{id}/update.json',
+    config  : users.update
+  },
+  {
+    method  : 'POST',
+    path    : '/api/v0/users/{id}/update_card.json',
+    config  : users.update_card
+  }
+];

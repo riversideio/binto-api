@@ -4,6 +4,7 @@ nconf.argv().env().file({ file: "config.json" });
 
 
 var e           = module.exports;
+var router 		= require( './routes' );	
 e.ENV           = process.env.NODE_ENV || 'development';
 
 
@@ -16,8 +17,48 @@ var stripe_secret_key     = process.env.STRIPE_SECRET_KEY || nconf.get("STRIPE_S
 Parse   = require('./lib/parse')(parse_app_id, parse_rest_api_key);
 Stripe  = require('stripe')(stripe_secret_key);
 
-var port        = parseInt(process.env.PORT) || 3000;
+var port        = process.env.PORT || 3000;
 var Hapi        = require('hapi');
-server          = new Hapi.Server(+port, '0.0.0.0', { cors: true });
-require('./routes');
-server.start();
+var blue 		= "\033[34m";
+var cyan		= "\033[36m";
+var green 		= "\033[32m";
+var reset 		= "\033[0m";
+var server      = new Hapi.Server(+port, '0.0.0.0', { cors: true });
+
+router( function ( err, routes ) {
+	if ( err ) {
+		Hapi.error.internal( 'Failed to fetch routes', err );
+	}else{
+		server.route( routes ); 
+	}
+})
+
+// require( './routes' )( server );
+
+server.start( function () {
+	// some feedback that the server started
+	console.log( 
+		blue + 'Server process ' + 
+		cyan + 'id:' + process.pid + 
+		blue + ' started at ' + 
+		green + '0.0.0.0:' + 
+		port + reset
+	);
+});
+
+// request logging
+server.on('request', function (request, event, tags) {
+	if ( event ) {
+		if( !!~event.tags.indexOf( 'received' ) ){
+			var data = event.data;
+			if ( /api/.test( data.url ) ) {
+				console.log(
+					green + data.method + ' ' +
+					blue + data.url + ' ' + 
+					cyan + data.agent + 
+					reset
+				)
+			}
+		}
+	}
+});
