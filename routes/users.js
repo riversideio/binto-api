@@ -117,6 +117,26 @@ var users = {
         }
       });
     }
+  },
+  resetPassword : {
+    handler : function ( request ) {
+      var user = request.payload;
+
+      Parse.post('/requestPasswordReset', user, function ( resp ) {
+        if ( resp.error ) {
+          return request.reply({
+            success: false,
+            error : {
+              message : resp.error
+            }
+          })
+        }
+        request.reply({
+          success : true,
+          message : resp
+        })
+      })
+    }
   }
 };
 
@@ -146,5 +166,10 @@ module.exports = [
     method  : 'POST',
     path    : '/api/v0/users/{id}/update_card.json',
     config  : users.update_card
+  },
+  {
+    method  : 'POST',
+    path    : '/api/v0/users/reset_password.json',
+    config  : users.resetPassword
   }
 ];
