@@ -77,7 +77,7 @@ var users = {
               exp_month:  request.payload.card_exp_month, 
               exp_year:   request.payload.card_exp_year
             },
-            plan:       STRIPE_PLAN_ID,
+            plan:       request.payload.plan || user.plan_id || STRIPE_PLAN_ID,
             email:      user.email
           };
 
@@ -86,7 +86,11 @@ var users = {
               if (err) {
                 request.reply({success: false, error: {message: err.message}})
               } else {
-                var user_payload = {stripe_customer_id: customer.id, session_token: request.payload.session_token};
+                var user_payload = {
+                  stripe_customer_id: customer.id, 
+                  session_token: request.payload.session_token,
+                  plan_id : payload.plan
+                };
                 
                 request.Parse.put("/users/"+request.params.id+".json", user_payload, function(resp) {
                   if (resp.error) {
@@ -102,7 +106,11 @@ var users = {
               if (err) {
                 request.reply({success: false, error: {message: err.message}})
               } else {
-                var user_payload = {stripe_customer_id: customer.id, session_token: request.payload.session_token};
+                var user_payload = {
+                  stripe_customer_id: customer.id, 
+                  session_token: request.payload.session_token,
+                  plan_id : payload.plan
+                };
                 
                 request.Parse.put("/users/"+request.params.id+".json", user_payload, function(resp) {
                   if (resp.error) {
