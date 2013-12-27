@@ -4,7 +4,7 @@
 var users = {
   index: {
     handler: function(request) {
-      Parse.get("/users.json", function(resp) {
+      request.Parse.get("/users.json", function(resp) {
         if (resp.error) {
           request.reply({success: false, error: {message: resp.error}})
         } else {
@@ -24,7 +24,7 @@ var users = {
       var user = request.payload;
       user.username = user.email;
 
-      Parse.post("/users.json", user, function(resp) {
+      request.Parse.post("/users.json", user, function(resp) {
         if (resp.error) {
           request.reply({success: false, error: {message: resp.error}})
         } else {
@@ -39,7 +39,7 @@ var users = {
   },
   get: {
     handler: function(request) {
-      Parse.get("/users/"+request.params.id+".json", function(resp) {
+      request.Parse.get("/users/"+request.params.id+".json", function(resp) {
         if (resp.error) {
           request.reply({success: false, error: {message: resp.error}})
         } else {
@@ -53,7 +53,7 @@ var users = {
       var user = request.payload;
       user.username = user.email;
 
-      Parse.put("/users/"+request.params.id+".json", user, function(resp) {
+      request.Parse.put("/users/"+request.params.id+".json", user, function(resp) {
         if (resp.error) {
           request.reply({success: false, error: {message: resp.error}})
         } else {
@@ -64,7 +64,7 @@ var users = {
   },
   update_card: {
     handler: function(request) {
-      Parse.get("/users/"+request.params.id+".json", function(resp) {
+      request.Parse.get("/users/"+request.params.id+".json", function(resp) {
         if (resp.error) {
           request.reply({success: false, error: {message: resp.error}})
         } else {
@@ -82,13 +82,13 @@ var users = {
           };
 
           if (user.stripe_customer_id) {
-            Stripe.customers.update(user.stripe_customer_id, payload, function(err, customer) {
+            request.Stripe.customers.update(user.stripe_customer_id, payload, function(err, customer) {
               if (err) {
                 request.reply({success: false, error: {message: err.message}})
               } else {
                 var user_payload = {stripe_customer_id: customer.id, session_token: request.payload.session_token};
                 
-                Parse.put("/users/"+request.params.id+".json", user_payload, function(resp) {
+                request.Parse.put("/users/"+request.params.id+".json", user_payload, function(resp) {
                   if (resp.error) {
                     request.reply({success: false, error: {message: resp.error}})
                   } else {
@@ -98,13 +98,13 @@ var users = {
               }
             });
           } else {
-            Stripe.customers.create(payload, function(err, customer) {
+            request.Stripe.customers.create(payload, function(err, customer) {
               if (err) {
                 request.reply({success: false, error: {message: err.message}})
               } else {
                 var user_payload = {stripe_customer_id: customer.id, session_token: request.payload.session_token};
                 
-                Parse.put("/users/"+request.params.id+".json", user_payload, function(resp) {
+                request.Parse.put("/users/"+request.params.id+".json", user_payload, function(resp) {
                   if (resp.error) {
                     request.reply({success: false, error: {message: resp.error}})
                   } else {
@@ -122,7 +122,7 @@ var users = {
     handler : function ( request ) {
       var user = request.payload;
 
-      Parse.post('/requestPasswordReset', user, function ( resp ) {
+      request.Parse.post('/requestPasswordReset', user, function ( resp ) {
         if ( resp.error ) {
           return request.reply({
             success: false,

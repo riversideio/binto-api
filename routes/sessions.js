@@ -5,7 +5,7 @@ var sessions = {
       var email         = encodeURIComponent(request.payload.email);
       var password      = encodeURIComponent(request.payload.password);
 
-      Parse.get("/login.json?username="+email+"&password="+password, function(resp) {
+      request.Parse.get("/login.json?username="+email+"&password="+password, function(resp) {
         if (resp.error) {
           request.reply({ success: false, error: {message: resp.error }})
         } else {
