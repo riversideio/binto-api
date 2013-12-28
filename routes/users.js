@@ -156,11 +156,15 @@ var users = {
         if (resp.error) return request.reply({success: false, error: {message: resp.error}});
         // remove plan from stripe
         request.Stripe.customers.update_subscription( resp.stripe_customer_id, {
-          plan : user.plan_id
+          plan : user.plan
         }, function ( err, res ) {
           if (err) return request.reply({success: false, error: {message: err}});
+          var payload = { 
+            plan_id : user.plan,
+            session_token : user.session_token 
+          };
           // update plan
-          request.Parse.put("/users/" + user.id + ".json", user, function( resp ) {
+          request.Parse.put("/users/" + user.id + ".json", payload, function( resp ) {
             if (resp.error) return request.reply({success: false, error: {message: resp.error}})
             request.reply({
               success: true,
