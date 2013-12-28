@@ -126,6 +126,51 @@ var users = {
       });
     }
   },
+  cancelPlan : {
+    handler : function ( request ) {
+      var user = request.payload;
+      // get stripe id
+      request.Parse.get("/users/" + user.id + ".json", function( resp ) {
+        if (resp.error) return request.reply({success: false, error: {message: resp.error}});
+        // remove plan from stripe
+        request.Stripe.customers.cancel_subscription( resp.stripe_customer_id, false, function ( err, res ) {
+          if (err) return request.reply({success: false, error: {message: err}});
+          user.plan_id = "0";
+          // update plan
+          request.Parse.put("/users/" + user.id + ".json", user, function( resp ) {
+            if (resp.error) return request.reply({success: false, error: {message: resp.error}})
+            request.reply({
+              success: true,
+              message : res
+            })
+          });
+        });
+      });
+    }
+  },
+  updatePlan : {
+    handler : function ( request ) {
+      var user = request.payload;
+      // get stripe id
+      request.Parse.get("/users/" + user.id + ".json", function( resp ) {
+        if (resp.error) return request.reply({success: false, error: {message: resp.error}});
+        // remove plan from stripe
+        request.Stripe.customers.update_subscription( resp.stripe_customer_id, {
+          plan : user.plan_id
+        }, function ( err, res ) {
+          if (err) return request.reply({success: false, error: {message: err}});
+          // update plan
+          request.Parse.put("/users/" + user.id + ".json", user, function( resp ) {
+            if (resp.error) return request.reply({success: false, error: {message: resp.error}})
+            request.reply({
+              success: true,
+              message : res
+            })
+          });
+        });
+      });
+    }
+  },
   resetPassword : {
     handler : function ( request ) {
       var user = request.payload;
@@ -174,6 +219,16 @@ module.exports = [
     method  : 'POST',
     path    : '/api/v0/users/{id}/update_card.json',
     config  : users.update_card
+  },
+  {
+    method  : 'POST',
+    path    : '/api/v0/users/cancel_plan.json',
+    config  : users.cancelPlan
+  },
+  {
+    method  : 'POST',
+    path    : '/api/v0/users/update_plan.json',
+    config  : users.updatePlan
   },
   {
     method  : 'POST',
