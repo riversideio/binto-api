@@ -61,10 +61,10 @@ var users = {
   },
   update_card: {
     handler: function(request) {
-      request.Parse.headers["X-Parse-Session-Token"] =  request.payload.session_token;
-      request.Parse.get("/users/me.json", function(resp) {
-        delete request.Parse.headers["X-Parse-Session-Token"]; // hack around passing X-Parse-Session-Token and cleans it off 
-
+      var _user = {
+        session_token : request.payload.session_token
+      };
+      request.Parse.get("/users/me.json", _user, function(resp) {
         if (resp.error) {
           request.reply({success: false, error: {message: resp.error}})
         } else {
@@ -133,9 +133,13 @@ var users = {
   cancelPlan : {
     handler : function ( request ) {
       var user = request.payload;
+      var _user = {
+        session_token : request.payload.session_token
+      };
       // get stripe id
-      request.Parse.get("/users/" + user.id + ".json", function( resp ) {
+      request.Parse.get("/users/me.json", _user, function( resp ) {
         if (resp.error) return request.reply({success: false, error: {message: resp.error}});
+        user.id = resp.id;
         // remove plan from stripe
         request.Stripe.customers.cancel_subscription( resp.stripe_customer_id, false, function ( err, res ) {
           if (err) return request.reply({success: false, error: {message: err}});
@@ -155,9 +159,13 @@ var users = {
   updatePlan : {
     handler : function ( request ) {
       var user = request.payload;
+      var _user = {
+        session_token : request.payload.session_token
+      };
       // get stripe id
-      request.Parse.get("/users/" + user.id + ".json", function( resp ) {
+      request.Parse.get("/users/me.json", _user, function( resp ) {
         if (resp.error) return request.reply({success: false, error: {message: resp.error}});
+        user.id = resp.id;
         // remove plan from stripe
         request.Stripe.customers.update_subscription( resp.stripe_customer_id, {
           plan : user.plan
@@ -230,12 +238,12 @@ module.exports = [
   },
   {
     method  : 'POST',
-    path    : '/api/v0/users/cancel_plan.json',
+    path    : '/api/v0/users/{id}/cancel_plan.json',
     config  : users.cancelPlan
   },
   {
     method  : 'POST',
-    path    : '/api/v0/users/update_plan.json',
+    path    : '/api/v0/users/{id}/update_plan.json',
     config  : users.updatePlan
   },
   {
