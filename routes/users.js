@@ -1,6 +1,3 @@
-//var dataAdapter = require( './lib/adapter' );
-
-
 var users = {
   index: {
     handler: function(request) {
@@ -64,7 +61,10 @@ var users = {
   },
   update_card: {
     handler: function(request) {
-      request.Parse.get("/users/"+request.params.id+".json", function(resp) {
+      request.Parse.headers["X-Parse-Session-Token"] =  request.payload.session_token;
+      request.Parse.get("/users/me.json", function(resp) {
+        delete request.Parse.headers["X-Parse-Session-Token"]; // hack around passing X-Parse-Session-Token and cleans it off 
+
         if (resp.error) {
           request.reply({success: false, error: {message: resp.error}})
         } else {
@@ -81,6 +81,10 @@ var users = {
             email:      user.email
           };
 
+          // before updating here make validate against parse to make sure 
+          // user submitting to this user id is the same user with same
+          // session
+
           if (user.stripe_customer_id) {
             request.Stripe.customers.update(user.stripe_customer_id, payload, function(err, customer) {
               if (err) {
@@ -92,7 +96,7 @@ var users = {
                   plan_id : payload.plan
                 };
                 
-                request.Parse.put("/users/"+request.params.id+".json", user_payload, function(resp) {
+                request.Parse.put("/users/"+user.objectId+".json", user_payload, function(resp) {
                   if (resp.error) {
                     request.reply({success: false, error: {message: resp.error}})
                   } else {
@@ -112,7 +116,7 @@ var users = {
                   plan_id : payload.plan
                 };
                 
-                request.Parse.put("/users/"+request.params.id+".json", user_payload, function(resp) {
+                request.Parse.put("/users/"+user.objectId+".json", user_payload, function(resp) {
                   if (resp.error) {
                     request.reply({success: false, error: {message: resp.error}})
                   } else {

@@ -6,12 +6,11 @@ The member signup and billing management API for Riverside.io.
 
 Create a free account at [parse.com](http://parse.com). Create an app called victoria_club_development and another app called victoria_club_production. This will serve as the database. It is a nice alternative to running your own database.
 
-Once created note the application keys and add the development versions to a config.json file. Touch config.json file and then add the following.
+Once created note the application keys and add the development versions to a .env file.
 
-    {
-      "PARSE_APP_ID": "ma4KVupPzQOQpUfSGKoR34TVHOTCq9Nh5ii8DLgq",
-      "PARSE_REST_API_KEY": "izLxWoe4waULE80ovq1VqVDegcZIabQL05TFZWMF"
-    }
+```
+cp .env.example .env
+```
 
 Optionally add a STRIPE_PLAN_ID in this config if you want a card automatically associated to your coworking space's monthly membership plan.
 
@@ -39,14 +38,7 @@ Next try updating that user.
     -d "session_token=cqo4zl2ocs4ati8c51ugs6mtt" \
     -d "stripe_customer_id=1234"
 
-Now, we need to add in [Stripe](http://stripe.com) appropriately. Create an account at [Stripe.com](http://stripe.com) and then copy the test secret key to your config.json like the following.
-
-    {
-      ...
-      "STRIPE_SECRET_KEY": "sk_test_E7WuViC5JlIQMQKYEE8fLJea"
-    }
-
-
+Now, we need to add in [Stripe](http://stripe.com) appropriately. Create an account at [Stripe.com](http://stripe.com) and then copy the test secret key to your `.env` file.
 
 ## Deploying to Heroku
 

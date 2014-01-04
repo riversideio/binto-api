@@ -1,4 +1,3 @@
-
 var sessions = {
   login: {
     handler: function (request) {
