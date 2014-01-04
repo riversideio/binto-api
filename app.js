@@ -2,6 +2,7 @@ var dotenv = require('dotenv');
 dotenv.load();
 
 var request = require('request');
+var chalk 	= require('chalk');
 var e       = module.exports;
 var router  = require( './routes' );
 	
@@ -24,7 +25,8 @@ router( function ( err, routes ) {
 });
 
 server.start( function () {
-  console.log('Victori-Club.js server started at: ' + server.info.uri);
+  console.log(chalk.grey('Victoria-Club server started at: '), 
+  		chalk.green.bgBlack(server.info.uri));
 });
 
 // server extension / middlewarish stuff
@@ -44,9 +46,8 @@ server.on('request', function (request, event, tags) {
 			var data = event.data;
 			if ( /api/.test( data.url ) ) {
 				console.log(
-					data.method + ' ' +
-					data.url + ' ' + 
-					data.agent 
+					chalk.green.bgBlack(data.method) + ' ' +
+					chalk.grey(data.url) 
 				)
 			}
 		}
