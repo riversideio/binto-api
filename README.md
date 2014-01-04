@@ -98,6 +98,30 @@ Updates a user's credit card on file. Creates one if not yet existing. Requires 
     -d "card_exp_month=7" \
     -d "card_exp_year=18"
 
+#### POST /api/v0/users/reset_password.json
+
+Request a password reset email from Parse. Requires just `email` of user.
+
+    curl -X POST http://localhost:3000/api/v0/users/reset_password.json \
+    -d "email=bobdillin@coolpickels.com" \
+
+#### POST /api/v0/users/update_plan.json
+
+Updates a users subscription to Stripe, requires a user `id`, `plan` id, and `session_token`.
+
+    curl -X POST http://localhost:3000/api/v0/users/update_plan.json \
+    -d "session_token=cqo4zl2ocs4ati8c51ugs6mtt" \
+    -d "plan=BALLERZ12" \
+    -d "id=123123" \
+
+#### POST /api/v0/users/cancel_plan.json
+
+Cancel a users subscription to Stripe, requires a user `id`, and `session_token`.
+
+    curl -X POST http://localhost:3000/api/v0/users/cancel_plan.json \
+    -d "session_token=cqo4zl2ocs4ati8c51ugs6mtt" \
+    -d "id=123123" \
+
 ### Sessions
 
 #### POST /api/v0/sessions
@@ -107,3 +131,11 @@ Lets the user login and returns the sessionToken.
     curl -X POST http://localhost:3000/api/v0/sessions.json \
     -d "email=you@youremail.com" \
     -d "password=password"
+
+### Location
+
+#### GET /api/v0/location/plans.json
+
+Gets a list of white listed plans for the user to select on signup.
+
+    curl -X GET http://localhost:3000/api/v0/location/plans.json 
