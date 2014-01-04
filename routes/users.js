@@ -62,13 +62,8 @@ var users = {
   update_card: {
     handler: function(request) {
       request.Parse.headers["X-Parse-Session-Token"] =  request.payload.session_token;
-
-      console.log(request.Parse.headers);
-
       request.Parse.get("/users/me.json", function(resp) {
         delete request.Parse.headers["X-Parse-Session-Token"]; // hack around passing X-Parse-Session-Token and cleans it off 
-
-        console.log(request.Parse.headers);
 
         if (resp.error) {
           request.reply({success: false, error: {message: resp.error}})
