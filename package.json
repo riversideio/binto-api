@@ -8,9 +8,9 @@
   "main": "app.js",
   "description": "The member signup and billing management API for Riverside.io.",
   "dependencies": {
+    "dotenv": "0.2.3",
     "hapi": "1.6.2",
     "nconf": "0.6.7",
-    "node-parse-api": "0.1.9",
     "request": "2.21.0",
     "stripe": "~1.3.0"
   }

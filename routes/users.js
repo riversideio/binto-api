@@ -1,6 +1,3 @@
-//var dataAdapter = require( './lib/adapter' );
-
-
 var users = {
   index: {
     handler: function(request) {

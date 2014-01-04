@@ -5,8 +5,6 @@
   */
 
 module.exports = function ( callback ) {
-
-
   var fs = require('fs');
 
   fs.readdir( __dirname, function ( err, files ) {
@@ -27,5 +25,4 @@ module.exports = function ( callback ) {
     });
     callback( null, routes );
   })
-
 }

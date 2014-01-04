@@ -9,8 +9,8 @@ Create a free account at [parse.com](http://parse.com). Create an app called vic
 Once created note the application keys and add the development versions to a config.json file. Touch config.json file and then add the following.
 
     {
-      "PARSE_APP_ID": "ma4KVupPzQOQpUfSGKoR34TVHOTCq9Nh5ii8DLgq",
-      "PARSE_REST_API_KEY": "izLxWoe4waULE80ovq1VqVDegcZIabQL05TFZWMF"
+      "PARSE_APP_ID": "your_parse_app_id",
+      "PARSE_REST_API_KEY": "your_parse_rest_api_key"
     }
 
 Optionally add a STRIPE_PLAN_ID in this config if you want a card automatically associated to your coworking space's monthly membership plan.
