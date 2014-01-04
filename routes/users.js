@@ -139,7 +139,7 @@ var users = {
       // get stripe id
       request.Parse.get("/users/me.json", _user, function( resp ) {
         if (resp.error) return request.reply({success: false, error: {message: resp.error}});
-        user.id = resp.id;
+        user.id = resp.objectId;
         // remove plan from stripe
         request.Stripe.customers.cancel_subscription( resp.stripe_customer_id, false, function ( err, res ) {
           if (err) return request.reply({success: false, error: {message: err}});
@@ -165,7 +165,7 @@ var users = {
       // get stripe id
       request.Parse.get("/users/me.json", _user, function( resp ) {
         if (resp.error) return request.reply({success: false, error: {message: resp.error}});
-        user.id = resp.id;
+        user.id = resp.objectId;
         // remove plan from stripe
         request.Stripe.customers.update_subscription( resp.stripe_customer_id, {
           plan : user.plan
