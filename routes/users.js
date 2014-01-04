@@ -61,7 +61,7 @@ var users = {
   },
   update_card: {
     handler: function(request) {
-      request.Parse.get("/users/"+request.params.id+".json", function(resp) {
+      request.Parse.get("/users/me.json", function(resp) {
         if (resp.error) {
           request.reply({success: false, error: {message: resp.error}})
         } else {
@@ -78,6 +78,10 @@ var users = {
             email:      user.email
           };
 
+          // before updating here make validate against parse to make sure 
+          // user submitting to this user id is the same user with same
+          // session
+
           if (user.stripe_customer_id) {
             request.Stripe.customers.update(user.stripe_customer_id, payload, function(err, customer) {
               if (err) {
@@ -85,7 +89,7 @@ var users = {
               } else {
                 var user_payload = {stripe_customer_id: customer.id, session_token: request.payload.session_token};
                 
-                request.Parse.put("/users/"+request.params.id+".json", user_payload, function(resp) {
+                request.Parse.put("/users/"+user.objectId+".json", user_payload, function(resp) {
                   if (resp.error) {
                     request.reply({success: false, error: {message: resp.error}})
                   } else {
@@ -101,7 +105,7 @@ var users = {
               } else {
                 var user_payload = {stripe_customer_id: customer.id, session_token: request.payload.session_token};
                 
-                request.Parse.put("/users/"+request.params.id+".json", user_payload, function(resp) {
+                request.Parse.put("/users/"+user.objectId+".json", user_payload, function(resp) {
                   if (resp.error) {
                     request.reply({success: false, error: {message: resp.error}})
                   } else {
