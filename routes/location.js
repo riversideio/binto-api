@@ -1,3 +1,8 @@
+require('dotenv').load();
+
+var blacklist = process.env.PLAN_BLACK_LIST;
+blacklist = (blacklist || '').split(/\,/);
+
 module.exports = [
   {
     method  : 'GET',
@@ -11,7 +16,10 @@ module.exports = [
 					res.error = { message : err };
 				}else{
 					res.success = true;
-					res.plans = plans.data;
+					res.plans = plans.data.filter(function( plan ) {
+						// returns true if not in array
+						return !~blacklist.indexOf( plan.id ) 
+					});
 				}
 				request.reply( res );
 			});
