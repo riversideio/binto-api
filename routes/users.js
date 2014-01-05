@@ -206,6 +206,38 @@ var users = {
         })
       })
     }
+  },
+  charge : {
+    handler : function ( request ) {
+      var user = request.payload;
+      var _user = {
+        session_token : request.payload.session_token
+      };
+      request.Parse.get("/users/me.json", _user, function( resp ) {
+        if (resp.error) return request.reply({success: false, error: {message: resp.error}});
+        var charge = {
+          amount : +user.amount,
+          currency : 'usd',
+          card : {
+            number : user.card_number,
+            cvc : user.card_cvc,
+            exp_month : user.card_exp_month,
+            exp_year: user.card_exp_year
+          },
+          metadata : {
+            email : resp.email
+          }
+        };
+        if ( user.stripe_customer_id ) charge.customer = user.stripe_customer_id;
+        request.Stripe.charges.create( charge, function ( err, res ) {
+          if (err) return request.reply({success: false, error: {message: err}});
+          request.reply({
+            success : true,
+            message : resp
+          });
+        });
+      });
+    }
   }
 };
 
@@ -245,6 +277,11 @@ module.exports = [
     method  : 'POST',
     path    : '/api/v0/users/{id}/update_plan.json',
     config  : users.updatePlan
+  },
+  {
+    method  : 'POST',
+    path    : '/api/v0/users/{id}/charge.json',
+    config  : users.charge
   },
   {
     method  : 'POST',
