@@ -112,6 +112,18 @@ Request a password reset email from Parse. Requires just `email` of user.
     curl -X POST http://localhost:3000/api/v0/users/reset_password.json \
     -d "email=bobdillin@coolpickels.com" \
 
+#### POST /api/v0/users/:id/charge.json
+
+Charges a user's credit card to a specified amount, currently only works with inputted cards. Requires a session_token.
+
+    curl -X POST http://localhost:3000/api/v0/users/JTQKXcajdP/charge.json \
+    -d "session_token=cqo4zl2ocs4ati8c51ugs6mtt" \
+    -d "card_number=4242424242424242" \
+    -d "card_cvc=123" \
+    -d "card_exp_month=7" \
+    -d "card_exp_year=18"\
+    -d "amount=5000"
+
 ### Sessions
 
 #### POST /api/v0/sessions
