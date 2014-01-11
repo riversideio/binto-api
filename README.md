@@ -141,3 +141,5 @@ Lets the user login and returns the sessionToken.
 Gets a list of white listed plans for the user to select on signup.
 
     curl -X GET http://localhost:3000/api/v0/plans.json 
+
+Note: You can blacklist plans (if you want to keep some secret). Set your environment variable `PLAN_BLACKLIST`. Seperate multiple ones with commas. `heroku config:set PLAN_BLACKLIST=plan1,plan2` 

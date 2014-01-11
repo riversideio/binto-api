@@ -1,6 +1,6 @@
 require('dotenv').load();
 
-var blacklist = process.env.PLAN_BLACK_LIST;
+var blacklist = process.env.PLAN_BLACKLIST;
 blacklist = (blacklist || '').split(/\,/);
 
 module.exports = [
