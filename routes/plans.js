@@ -6,7 +6,7 @@ blacklist = (blacklist || '').split(/\,/);
 module.exports = [
   {
     method  : 'GET',
-    path    : '/api/v0/location/plans.json',
+    path    : '/api/v0/plans.json',
     config  : {
 		handler : function ( request ) {
 			request.Stripe.plans.list( 3, 0, function ( err, plans ) {

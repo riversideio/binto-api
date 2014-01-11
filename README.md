@@ -136,8 +136,8 @@ Lets the user login and returns the sessionToken.
 
 ### Location
 
-#### GET /api/v0/location/plans.json
+#### GET /api/v0/plans.json
 
 Gets a list of white listed plans for the user to select on signup.
 
-    curl -X GET http://localhost:3000/api/v0/location/plans.json 
+    curl -X GET http://localhost:3000/api/v0/plans.json 
