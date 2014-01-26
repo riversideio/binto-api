@@ -11,6 +11,19 @@ var checkins = {
         }
       });
     }
+  },
+  all: {
+    handler: function(request) {
+      var checkin = request.payload;
+
+      request.Parse.get("/classes/Checkin.json", function(resp) {
+        if (resp.error) {
+          request.reply({success: false, error: {message: resp.error}});
+        } else {
+          request.reply({success: true, checkins: resp});
+        }
+      });
+    }
   }
 }
 
@@ -18,4 +31,9 @@ module.exports = [{
   method: 'POST',
   path: '/api/v0/checkins.json',
   config: checkins.create
+},
+{
+  method: 'GET',
+  path: '/api/v0/checkins.json',
+  config: checkins.all
 }];
