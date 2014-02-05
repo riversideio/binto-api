@@ -13,10 +13,11 @@ var checkins = {
     }
   },
   all: {
-    handler: function(request) {
-      var checkin = request.payload;
+    handler: function( request ) {
+      var query = request.query;
+      query = query || { };
 
-      request.Parse.get("/classes/Checkin.json", function(resp) {
+      request.Parse.get("/classes/Checkin.json", query, function(resp) {
         if (resp.error) {
           request.reply({success: false, error: {message: resp.error}});
         } else {
