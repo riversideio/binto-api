@@ -8,7 +8,10 @@ var router  = require( './routes' );
 	
 var parse_app_id        = process.env.PARSE_APP_ID;	
 var parse_rest_api_key  = process.env.PARSE_REST_API_KEY;	
-var stripe_secret_key   = process.env.STRIPE_SECRET_KEY;	
+var stripe_secret_key   = process.env.STRIPE_SECRET_KEY;
+var google_key 			= decodeURIComponent(process.env.GOOGLE_KEY);
+var google_calendar 	= process.env.GOOGLE_CALENDAR;
+var google_email 		= process.env.GOOGLE_EMAIL;
 
 var port    = process.env.PORT || 3000;
 var Hapi    = require('hapi');
@@ -36,6 +39,10 @@ server.ext('onRequest', function (request, next) {
 	// to help avoid globals
 	request.Parse = require('./lib/parse')(parse_app_id, parse_rest_api_key);
 	request.Stripe = require('stripe')(stripe_secret_key);
+	request.Events = new ( require('./lib/events') )(google_key, {
+		accountEmail : google_email,
+		calendarId : google_calendar
+	});
     next();
 });
 
