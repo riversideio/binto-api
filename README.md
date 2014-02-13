@@ -134,7 +134,7 @@ Lets the user login and returns the sessionToken.
     -d "email=you@youremail.com" \
     -d "password=password"
 
-### Location
+### Plans
 
 #### GET /api/v0/plans.json
 
@@ -143,3 +143,27 @@ Gets a list of white listed plans for the user to select on signup.
     curl -X GET http://localhost:3000/api/v0/plans.json 
 
 Note: You can blacklist plans (if you want to keep some secret). Set your environment variable `PLAN_BLACKLIST`. Seperate multiple ones with commas. `heroku config:set PLAN_BLACKLIST=plan1,plan2` 
+
+### Events 
+
+#### GET /api/v0/events.json
+
+Gets a list of events
+
+    curl -X GET http://localhost:3000/api/v0/events.json
+
+There are a series of differnt parameter that can be passed with to get certain criteria of events. Right now the current adapter is using [Google Calendars API v3](https://developers.google.com/google-apps/calendar/v3/reference/events/list) so use the referance to their params.
+
+#### POST /api/v0/events.json
+
+Create an Event
+
+    curl 
+    -X POST
+    -d "start={DateTime}"
+    -d "end={DateTime}"
+    -d "title=Hello World"
+    -d "decription=Things and Stuff" 
+    http://localhost:3000/api/v0/events.json    
+
+Right now the only params available are the ones listed in the call. `start` and `end` are the only require field and use a Date Time formatted according to RFC 3339. eg. `moment().format()` 
