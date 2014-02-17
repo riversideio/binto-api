@@ -213,6 +213,24 @@ curl -X GET http://localhost:3000/api/v0/plans.json
 
 Note: You can blacklist plans (if you want to keep some secret). Set your environment variable `PLAN_BLACKLIST`. Seperate multiple ones with commas. `heroku config:set PLAN_BLACKLIST=plan1,plan2` 
 
+### Checkins
+
+#### GET /api/v0/checkins.json
+
+Gets a list of checkins.
+
+```
+curl -X GET http://localhost:3000/api/v0/checkins.json
+```
+
+#### POST /api/v0/checkins.json
+
+Creates a checkin.
+
+```
+curl -X POST http://localhost:3000/api/v0/checkins.json
+```
+
 ### Events 
 
 #### GET /api/v0/events.json
