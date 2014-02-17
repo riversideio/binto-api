@@ -3,11 +3,8 @@ require('dotenv').load();
 var blacklist = process.env.PLAN_BLACKLIST;
 blacklist = (blacklist || '').split(/\,/);
 
-module.exports = [
-  {
-    method  : 'GET',
-    path    : '/api/v0/plans.json',
-    config  : {
+var plans = {
+  all: {
 		handler : function ( request ) {
 			request.Stripe.plans.list( 3, 0, function ( err, plans ) {
 				var res = {};
@@ -24,6 +21,13 @@ module.exports = [
 				request.reply( res );
 			});
 		}
-	}
+  }
+}
+
+module.exports = [
+  {
+    method: 'GET',
+    path:   '/api/v0/plans.json',
+    config: plans.all
   }
 ];
