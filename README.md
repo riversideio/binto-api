@@ -102,7 +102,7 @@ You will also need to setup all the GOOGLE variables for you `.env` to get the e
 * [Checkins](#checkins)
 * [Events](#events)
 
-### Users
+### Users [^](#documentation)
 
 #### GET /api/v0/users
 
