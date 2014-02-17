@@ -22,7 +22,6 @@ module.exports = [
 
 				request.Events.fetch( request, function ( err, res ) {
 					if ( err ) return request.reply( err );
-					console.log( res );
 					request.reply( { 
 						success : true,
 						event : res
