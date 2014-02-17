@@ -1,12 +1,12 @@
 {
-  "name": "victoria-club",
+  "name": "binto-api",
   "version": "0.0.1",
   "engines": {
     "node": "0.10.x",
     "npm": "1.2.x"
   },
   "main": "app.js",
-  "description": "The member signup and billing management API for Riverside.io.",
+  "description": "An open source member signup and billing management API for coworking spaces.",
   "dependencies": {
     "dotenv": "0.2.3",
     "hapi": "1.6.2",

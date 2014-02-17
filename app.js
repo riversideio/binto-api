@@ -28,7 +28,7 @@ router( function ( err, routes ) {
 });
 
 server.start( function () {
-  console.log(chalk.grey('Victoria-Club server started at: '), 
+  console.log(chalk.grey('binto-api server started at: '), 
   		chalk.green.bgBlack(server.info.uri));
 });
 

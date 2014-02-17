@@ -1,10 +1,10 @@
-# victoria-club
+# binto-api
 
-The member signup and billing management API for Riverside.io.
+An open source member signup and billing management API for coworking spaces.
 
 ## Getting Started
 
-Create a free account at [parse.com](http://parse.com). Create an app called victoria_club_development and another app called victoria_club_production. This will serve as the database. It is a nice alternative to running your own database.
+Create a free account at [parse.com](http://parse.com). Create an app called binto_api_development and another app called binto_api_production. This will serve as the database. It is a nice alternative to running your own database.
 
 Once created note the application keys and add the development versions to a .env file.
 
