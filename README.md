@@ -96,6 +96,12 @@ You will also need to setup all the GOOGLE variables for you `.env` to get the e
 
 ## Documentation
 
+* [Users](#users)
+* [Sessions](#sessions)
+* [Plans](#plans)
+* [Checkins](#checkins)
+* [Events](#events)
+
 ### Users
 
 #### GET /api/v0/users
