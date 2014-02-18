@@ -6,7 +6,7 @@ An open source member signup and billing management API for coworking spaces.
 
 1. [Create a new app](https://parse.com/apps/new) on parse.com. Call it `binto_api_production`.
 
-2. [Signup for Stripe.com](http://stripe.com)
+2. [Signup for Stripe.com](http://stripe.com).
 
 3. Run the following commands.
 
