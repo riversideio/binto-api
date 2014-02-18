@@ -1,5 +1,7 @@
 # binto-api
 
+![](https://raw2.github.com/riversideio/binto-api/master/binto.jpg)
+
 An open source member signup and billing management API for coworking spaces.
 
 ## Quickstart
