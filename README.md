@@ -194,7 +194,7 @@ curl -X POST http://localhost:3000/api/v0/events.json \
 
 Right now the only params available are the ones listed in the call. `start` and `end` are the only require field and use a Date Time formatted according to RFC 3339. eg. `moment().format()` 
 
-## Develompent Setup
+## Development Setup
 
 [Create a new app](https://parse.com/apps/new) on parse.com. Call it `binto_api_development`.
 
