@@ -4,11 +4,11 @@ An open source member signup and billing management API for coworking spaces.
 
 ## Quickstart
 
-[Create a new app](https://parse.com/apps/new) on parse.com. Call it `binto_api_production`.
+1. [Create a new app](https://parse.com/apps/new) on parse.com. Call it `binto_api_production`.
 
-[Signup for Stripe.com](http://stripe.com)
+2. [Signup for Stripe.com](http://stripe.com)
 
-Run the following commands.
+3. Run the following commands.
 
 ```
 git clone https://github.com/riversideio/binto-api.git
@@ -19,10 +19,10 @@ heroku config:set STRIPE_SECRET_KEY=your_stripe_secret_key STRIPE_PLAN_ID=rivers
 git push heroku master
 ```
 
-That's it. Optionally, make your first request.
+You're done. Make your first request.
 
 ```
-curl -X GET http://warm-hollows-6803.herokuapp.com/api/v0/users.json
+curl -X GET http://yoursubdomain.herokuapp.com/api/v0/users.json
 ```
 
 ## Documentation
