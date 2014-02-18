@@ -203,6 +203,7 @@ Right now the only params available are the ones listed in the call. `start` and
 Run the following commands.
 
 ```
+npm install
 cp .env.example .env
 vim .env
 ```
