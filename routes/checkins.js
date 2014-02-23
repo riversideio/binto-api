@@ -28,13 +28,15 @@ var checkins = {
   }
 }
 
-module.exports = [{
-  method: 'POST',
-  path: '/api/v0/checkins.json',
-  config: checkins.create
-},
-{
-  method: 'GET',
-  path: '/api/v0/checkins.json',
-  config: checkins.all
-}];
+module.exports = [
+  {
+    method: 'POST',
+    path: '/api/v0/checkins.json',
+    config: checkins.create
+  },
+  {
+    method: 'GET',
+    path: '/api/v0/checkins.json',
+    config: checkins.all
+  }
+];

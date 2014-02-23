@@ -9,9 +9,9 @@ var router  = require( './routes' );
 var parse_app_id        = process.env.PARSE_APP_ID;	
 var parse_rest_api_key  = process.env.PARSE_REST_API_KEY;	
 var stripe_secret_key   = process.env.STRIPE_SECRET_KEY;
-var google_key 			= decodeURIComponent(process.env.GOOGLE_KEY);
-var google_calendar 	= process.env.GOOGLE_CALENDAR;
-var google_email 		= process.env.GOOGLE_EMAIL;
+var google_key 			    = decodeURIComponent(process.env.GOOGLE_KEY);
+var google_calendar 	  = process.env.GOOGLE_CALENDAR;
+var google_email 		    = process.env.GOOGLE_EMAIL;
 
 var port    = process.env.PORT || 3000;
 var Hapi    = require('hapi');
@@ -28,7 +28,7 @@ router( function ( err, routes ) {
 });
 
 server.start( function () {
-  console.log(chalk.grey('Victoria-Club server started at: '), 
+  console.log(chalk.grey('binto-api server started at: '), 
   		chalk.green.bgBlack(server.info.uri));
 });
 
