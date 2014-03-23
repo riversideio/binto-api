@@ -29,6 +29,9 @@ var users = {
           delete user.password;
           user.session_token  = resp.sessionToken;
           user.id             = resp.objectId;
+
+          request.messenger.emit('user:created', user); 
+
           request.reply({success: true, user: user});
         }
       });
