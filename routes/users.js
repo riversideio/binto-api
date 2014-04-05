@@ -209,13 +209,9 @@ var users = {
   },
   charge : {
     handler : function ( request ) {
-      var user = request.payload;
-      var _user = {
-        session_token : request.payload.session_token
-      };
-      request.Parse.get("/users/me.json", _user, function( resp ) {
-        if (resp.error) return request.reply({success: false, error: {message: resp.error}});
-        var charge = {
+      var user = request.payload,
+        _user,
+        charge = {
           amount : +user.amount,
           currency : 'usd',
           card : {
@@ -224,19 +220,32 @@ var users = {
             exp_month : user.card_exp_month,
             exp_year: user.card_exp_year
           },
-          metadata : {
-            email : resp.email
-          }
+          metadata : {}
         };
-        if ( user.stripe_customer_id ) charge.customer = user.stripe_customer_id;
-        request.Stripe.charges.create( charge, function ( err, res ) {
+      function process ( charge ) {
+       request.Stripe.charges.create( charge, function ( err, res ) {
           if (err) return request.reply({success: false, error: {message: err}});
           request.reply({
             success : true,
-            message : resp
+            message : res
           });
         });
-      });
+      }
+      if ( request.payload.session_token ){
+        _user = {
+          session_token : request.payload.session_token
+        };
+        return request.Parse.get("/users/me.json", _user, function( resp ) {
+          if (resp.error) return request.reply({success: false, error: {message: resp.error}});
+          if ( user.stripe_customer_id ) charge.customer = user.stripe_customer_id;
+          charge.metadata.email = resp.email;
+          process( charge );
+        }); 
+      } 
+      if ( !user.email ) return request.reply({success:false, error : { message : 'Please provide a Email to make charge' }});
+      charge.metadata.email = user.email;
+      charge.metadata.name = user.name;
+      process( charge );
     }
   }
 };
