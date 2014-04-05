@@ -124,7 +124,7 @@ curl -X POST http://localhost:3000/api/v0/users/JTQKXcajdP/charge.json \
 -d "card_number=4242424242424242" \
 -d "card_cvc=123" \
 -d "card_exp_month=7" \
--d "card_exp_year=18"\
+-d "card_exp_year=18" \
 -d "amount=5000"
 ```
 
