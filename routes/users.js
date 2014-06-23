@@ -140,6 +140,7 @@ var users = {
       request.Parse.get("/users/me.json", _user, function( resp ) {
         if (resp.error) return request.reply({success: false, error: {message: resp.error}});
         user.id = resp.objectId;
+        user.email = resp.email;
         // remove plan from stripe
         request.Stripe.customers.cancel_subscription( resp.stripe_customer_id, false, function ( err, res ) {
           if (err) return request.reply({success: false, error: {message: err}});
@@ -148,7 +149,7 @@ var users = {
           request.Parse.put("/users/" + user.id + ".json", user, function( resp ) {
             if (resp.error) return request.reply({success: false, error: {message: resp.error}})
 
-            request.Messenger.Email.deliverCancelPlanEmail(user.email);
+            request.MessengerEmail.deliverCancelPlanEmail(user.email);
 
             request.reply({
               success: true,
