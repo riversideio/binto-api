@@ -149,7 +149,7 @@ var users = {
           request.Parse.put("/users/" + user.id + ".json", user, function( resp ) {
             if (resp.error) return request.reply({success: false, error: {message: resp.error}})
 
-            request.MessengerEmail.deliverCancelPlanEmail(user.email);
+            request.messengerEmail.deliverCancelPlanEmail(user.email);
 
             request.reply({
               success: true,
