@@ -48,7 +48,13 @@ server.ext('onRequest', function (request, next) {
 		accountEmail : google_email,
 		calendarId : google_calendar
 	});
-  request.messengerEmail = require('./lib/messenger/email')({smtp_username: smtp_username, smtp_password: smtp_password, smtp_host: smtp_host, smtp_port: smtp_port, from: from});
+  request.messengerEmail = require('./lib/messenger/email')({
+    smtp_username: smtp_username, 
+    smtp_password: smtp_password, 
+    smtp_host: smtp_host, 
+    smtp_port: smtp_port, 
+    from: from
+  });
   next();
 });
 
