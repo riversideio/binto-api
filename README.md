@@ -16,6 +16,7 @@ An open source member signup and billing management API for coworking spaces.
 git clone https://github.com/riversideio/binto-api.git
 cd binto-api
 heroku create
+heroku addons:add sendgrid
 heroku config:set PARSE_APP_ID=your_parse_app_id PARSE_REST_API_KEY=your_parse_rest_api_key 
 heroku config:set STRIPE_SECRET_KEY=your_stripe_secret_key STRIPE_PLAN_ID=riversideio100
 git push heroku master
@@ -84,6 +85,12 @@ curl -X POST http://localhost:3000/api/v0/users/JTQKXcajdP/update_card.json \
 -d "card_cvc=123" \
 -d "card_exp_month=7" \
 -d "card_exp_year=18"
+```
+
+Optional Params
+
+```
+-d "plan=SOMEPLANIDONSTRIPE"
 ```
 
 #### POST /api/v0/users/:id/update_plan.json
