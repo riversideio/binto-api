@@ -12,6 +12,10 @@ var stripe_secret_key   = process.env.STRIPE_SECRET_KEY;
 var google_key 			    = decodeURIComponent(process.env.GOOGLE_KEY);
 var google_calendar 	  = process.env.GOOGLE_CALENDAR;
 var google_email 		    = process.env.GOOGLE_EMAIL;
+var smtp_username 		  = process.env.SMTP_USERNAME || process.env.SENDGRID_USERNAME;
+var smtp_password 		  = process.env.SMTP_PASSWORD || process.env.SENDGRID_PASSWORD;
+var smtp_host           = process.env.SMTP_HOST || 'smtp.sendgrid.net';
+var smtp_port           = process.env.SMTP_PORT || '587';
 
 var port    = process.env.PORT || 3000;
 var Hapi    = require('hapi');
@@ -43,7 +47,8 @@ server.ext('onRequest', function (request, next) {
 		accountEmail : google_email,
 		calendarId : google_calendar
 	});
-    next();
+  request.MessengerEmail = require('./lib/messenger/email')({smtp_username: smtp_username, smtp_password: smtp_password, smtp_host: smtp_host, smtp_port: smtp_port});
+  next();
 });
 
 // request logging

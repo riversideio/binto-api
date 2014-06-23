@@ -147,6 +147,9 @@ var users = {
           // update plan
           request.Parse.put("/users/" + user.id + ".json", user, function( resp ) {
             if (resp.error) return request.reply({success: false, error: {message: resp.error}})
+
+            request.Messenger.Email.deliverCancelPlanEmail(user.email);
+
             request.reply({
               success: true,
               message : res
