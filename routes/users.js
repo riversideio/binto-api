@@ -1,7 +1,7 @@
 var users = {
   index: {
     handler: function(request) {
-      request.Parse.get("/users.json", function(resp) {
+      request.Parse.get("/users", function(resp) {
         if (resp.error) {
           request.reply({success: false, error: {message: resp.error}})
         } else {
@@ -21,7 +21,7 @@ var users = {
       var user = request.payload;
       user.username = user.email;
 
-      request.Parse.post("/users.json", user, function(resp) {
+      request.Parse.post("/users", user, function(resp) {
         if (resp.error) {
           request.reply({success: false, error: {message: resp.error}})
         } else {
@@ -36,7 +36,7 @@ var users = {
   },
   get: {
     handler: function(request) {
-      request.Parse.get("/users/"+request.params.id+".json", function(resp) {
+      request.Parse.get("/users/"+request.params.id, function(resp) {
         if (resp.error) {
           request.reply({success: false, error: {message: resp.error}})
         } else {
@@ -50,7 +50,7 @@ var users = {
       var user = request.payload;
       user.username = user.email;
 
-      request.Parse.put("/users/"+request.params.id+".json", user, function(resp) {
+      request.Parse.put("/users/"+request.params.id, user, function(resp) {
         if (resp.error) {
           request.reply({success: false, error: {message: resp.error}})
         } else {
@@ -64,7 +64,7 @@ var users = {
       var _user = {
         session_token : request.payload.session_token
       };
-      request.Parse.get("/users/me.json", _user, function(resp) {
+      request.Parse.get("/users/me", _user, function(resp) {
         if (resp.error) {
           request.reply({success: false, error: {message: resp.error}})
         } else {
@@ -96,7 +96,7 @@ var users = {
                   plan_id : payload.plan
                 };
                 
-                request.Parse.put("/users/"+user.objectId+".json", user_payload, function(resp) {
+                request.Parse.put("/users/"+user.objectId, user_payload, function(resp) {
                   if (resp.error) {
                     request.reply({success: false, error: {message: resp.error}})
                   } else {
@@ -116,7 +116,7 @@ var users = {
                   plan_id : payload.plan
                 };
                 
-                request.Parse.put("/users/"+user.objectId+".json", user_payload, function(resp) {
+                request.Parse.put("/users/"+user.objectId, user_payload, function(resp) {
                   if (resp.error) {
                     request.reply({success: false, error: {message: resp.error}})
                   } else {
@@ -137,7 +137,7 @@ var users = {
         session_token : request.payload.session_token
       };
       // get stripe id
-      request.Parse.get("/users/me.json", _user, function( resp ) {
+      request.Parse.get("/users/me", _user, function( resp ) {
         if (resp.error) return request.reply({success: false, error: {message: resp.error}});
         user.id = resp.objectId;
         user.email = resp.email;
@@ -146,7 +146,7 @@ var users = {
           if (err) return request.reply({success: false, error: {message: err}});
           user.plan_id = "0";
           // update plan
-          request.Parse.put("/users/" + user.id + ".json", user, function( resp ) {
+          request.Parse.put("/users/" + user.id, user, function( resp ) {
             if (resp.error) return request.reply({success: false, error: {message: resp.error}})
 
             request.messengerEmail.deliverCancelPlanEmail(user.email);
@@ -167,7 +167,7 @@ var users = {
         session_token : request.payload.session_token
       };
       // get stripe id
-      request.Parse.get("/users/me.json", _user, function( resp ) {
+      request.Parse.get("/users/me", _user, function( resp ) {
         if (resp.error) return request.reply({success: false, error: {message: resp.error}});
         user.id = resp.objectId;
         // remove plan from stripe
@@ -180,7 +180,7 @@ var users = {
             session_token : user.session_token 
           };
           // update plan
-          request.Parse.put("/users/" + user.id + ".json", payload, function( resp ) {
+          request.Parse.put("/users/" + user.id + "", payload, function( resp ) {
             if (resp.error) return request.reply({success: false, error: {message: resp.error}})
             request.reply({
               success: true,
@@ -239,7 +239,7 @@ var users = {
         _user = {
           session_token : request.payload.session_token
         };
-        return request.Parse.get("/users/me.json", _user, function( resp ) {
+        return request.Parse.get("/users/me", _user, function( resp ) {
           if (resp.error) return request.reply({success: false, error: {message: resp.error}});
           if ( user.stripe_customer_id ) charge.customer = user.stripe_customer_id;
           charge.metadata.email = resp.email;
